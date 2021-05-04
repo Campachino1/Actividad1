@@ -10,6 +10,7 @@ plasticwaste = csv.reader(archivo2, delimiter=',')
 
 
 def procesar_csv (data):
+    # Funcion que Procesa la informacion de un csv.reader y retorna una lista con diccionarios de las columnas a cada dato correspondiente
     colum = next(data)
     datos_procesados = []
     for d in data:
@@ -19,7 +20,8 @@ def procesar_csv (data):
     return datos_procesados
 
 def guardar_JSON (data,ruta):
-    archivo = open(ruta,"w")
+    #Funcion que guarda los datos del parametro data en un archivo .json en la ruta pasada por parametro ruta
+    archivo = open(ruta+".json","w")
     json.dump(data,archivo)
     archivo.close()
 
@@ -39,16 +41,19 @@ window = sg.Window('Actividad 1 -Rossi- ',columna1,size=(500,300),element_justif
 while True:
     event, values = window.read()
     if event in ("exit"):
+        archivo1.close()
+        archivo2.close()
+        window.close()
         break
     elif event in ("footprint_button"): 
         text=sg.popup_get_text('Ingrese Nombre del Archivo CSV',title='Name')
         if text:
-            guardar_JSON(procesar_csv(footprint),(text+".json"))
+            guardar_JSON(procesar_csv(footprint),(text))
             sg.popup_ok("Procesado exitoso")      
     elif event in ("plastic_button"):
         text=sg.popup_get_text('Ingrese Nombre del Archivo CSV',title='Name')
         if text:
-            guardar_JSON(procesar_csv(plasticwaste),(text+".json"))
+            guardar_JSON(procesar_csv(plasticwaste),(text))
             sg.popup_ok("Procesado exitoso")
 window.close()
 
